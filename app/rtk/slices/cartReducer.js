@@ -46,7 +46,6 @@ const cartReducer = createSlice({
           item?.attributes?.products?.data[0]?.id ===
           action.payload?.products[0]
       );
-      console.log(findCart);
       if (!findCart) {
         fetch("https://tremendous-peace-f46153071d.strapiapp.com/api/carts", {
           method: "POST",

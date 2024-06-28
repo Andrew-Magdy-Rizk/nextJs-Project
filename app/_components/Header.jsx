@@ -19,9 +19,8 @@ function Header() {
     if(user?.primaryEmailAddress?.emailAddress){
       dispatch(fetchCartInfi(email));
       setLoading(!loading);
-      console.log(user)
+      
     }else if(user === null){
-      console.log(user)
       setLoading(!loading);
     }
   },[user])

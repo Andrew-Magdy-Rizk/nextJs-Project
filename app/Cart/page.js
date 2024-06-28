@@ -7,6 +7,7 @@ import {
   removeFromCart,
 } from "../rtk/slices/cartReducer";
 import SkeletonCartInfo from "../_components/SkeletonCartInfo";
+import CheckOut from "../check-out/page";
 function Cart() {
   const cartState = useSelector((state) => state.cart);
   const dispatch = useDispatch();
@@ -169,6 +170,9 @@ function Cart() {
             </button>
           </div>
         </div>
+        {checkout && (
+          <CheckOut hidden={setCheckout} Total={getTotalAmout.toFixed(2)} />
+        )}
       </section>
     </>
   );

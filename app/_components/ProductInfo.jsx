@@ -1,5 +1,6 @@
-import Image from 'next/image';
-import React, { useEffect, useState } from 'react';
+import Image from 'next/image'
+import React, { useEffect, useState } from 'react'
+import { FiShoppingCart } from "react-icons/fi";
 import ProductList from './ProductList';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchProducts, filterProduct } from '../rtk/slices/productsReducer';
@@ -7,6 +8,7 @@ import SkeletonProductInfo from './SkeletonProductInfo';
 import { addToCart, fetchCartInfi } from '../rtk/slices/cartReducer';
 import { useUser } from '@clerk/nextjs';
 import { useRouter } from 'next/navigation';
+import CheckOut from '../check-out/page';
 function ProductInfo({ productId }) {
   const [product, setProduct] = useState({});
   const [qauntity, setQauntity] = useState(1);
@@ -29,12 +31,14 @@ function ProductInfo({ productId }) {
     }
     );
     const data = await res.json();
+    // return console.log(data);
     setProduct(data.data);
     setLoading(false);
-    dispatch(filterProduct(data.data))
+    await dispatch(fetchProducts());
+    dispatch(filterProduct(data.data));
   }
   const email =user?.user?.primaryEmailAddress?.emailAddress;
-  const addToCartHandler =  () => {
+  const addToCartHandler = async () => {
     if(user.isSignedIn){
       const data ={
         userName: user?.user?.fullName,
@@ -43,13 +47,13 @@ function ProductInfo({ productId }) {
         quantity: qauntity
       }
       dispatch(addToCart(data));
+      dispatch(fetchCartInfi(email));
     }else{
       router.push('/sign-in')
     }
     
   }
   useEffect(() =>{
-    dispatch(fetchProducts());
     fetchproduct();
   },[])
   return (
@@ -244,7 +248,7 @@ function ProductInfo({ productId }) {
                                     </svg>
                                 </button>
                             </div>
-                            <button onClick={() => {addToCartHandler(); dispatch(fetchCartInfi(email));}}
+                            <button onClick={() => addToCartHandler()}
                                 className="group py-3 px-5 rounded-full bg-lime-200 text-black font-semibold text-lg w-full flex items-center justify-center gap-2 shadow-sm shadow-transparent transition-all duration-500 hover:shadow-gray-600 hover:bg-lime-300">
                                 <svg className="stroke-black transition-all duration-500"
                                     width="22" height="22" viewBox="0 0 22 22" fill="none"
@@ -277,6 +281,9 @@ function ProductInfo({ productId }) {
 
 
  {/* <script src='../actionProductInfo.js'/> */}
+ {checkout && (
+          <CheckOut hidden={setCheckout} Total={product?.attributes?.product_Price * qauntity} />
+        )}
       </div>
   )
 }
