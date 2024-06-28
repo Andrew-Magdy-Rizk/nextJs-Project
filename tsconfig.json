@@ -23,7 +23,8 @@
     ".next/types/**/*.ts",
     "**/*.ts",
     "**/*.tsx",
-    "middleware.js"
+    "middleware.js",
+    "app/api/create-intent/route.jsx"
   ],
   "exclude": ["node_modules"]
 }
