@@ -1,5 +1,4 @@
 "use client";
-import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -8,8 +7,6 @@ import {
   removeFromCart,
 } from "../rtk/slices/cartReducer";
 import SkeletonCartInfo from "../_components/SkeletonCartInfo";
-import Link from "next/link";
-import CheckOut from "../check-out/page";
 function Cart() {
   const cartState = useSelector((state) => state.cart);
   const dispatch = useDispatch();
@@ -172,9 +169,6 @@ function Cart() {
             </button>
           </div>
         </div>
-        {checkout && (
-          <CheckOut hidden={setCheckout} Total={getTotalAmout.toFixed(2)} />
-        )}
       </section>
     </>
   );

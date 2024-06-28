@@ -1,6 +1,5 @@
-import Image from 'next/image'
-import React, { useEffect, useState } from 'react'
-import { FiShoppingCart } from "react-icons/fi";
+import Image from 'next/image';
+import React, { useEffect, useState } from 'react';
 import ProductList from './ProductList';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchProducts, filterProduct } from '../rtk/slices/productsReducer';
@@ -8,7 +7,6 @@ import SkeletonProductInfo from './SkeletonProductInfo';
 import { addToCart, fetchCartInfi } from '../rtk/slices/cartReducer';
 import { useUser } from '@clerk/nextjs';
 import { useRouter } from 'next/navigation';
-import CheckOut from '../check-out/page';
 function ProductInfo({ productId }) {
   const [product, setProduct] = useState({});
   const [qauntity, setQauntity] = useState(1);
@@ -279,9 +277,6 @@ function ProductInfo({ productId }) {
 
 
  {/* <script src='../actionProductInfo.js'/> */}
- {checkout && (
-          <CheckOut hidden={setCheckout} Total={product?.attributes?.product_Price * qauntity} />
-        )}
       </div>
   )
 }
