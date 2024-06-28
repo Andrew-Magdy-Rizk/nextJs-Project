@@ -4,8 +4,8 @@ const stripe = new Stripe('sk_test_51PVAxB00QiqcB3SWqBuhULZSEkyZMmqvkDzRKtJTxa8i
   typescript: true,
   apiVersion: "2023-08-16",
 });
-export async function POST(request) {
-  const data = await request.json();
+export async function POST(request: any) {
+  const data: any = await request.json();
   const amount = data.amount;
 
   try {
@@ -14,7 +14,7 @@ export async function POST(request) {
       currency: "USD",
     });
     return NextResponse.json(paymentIntent.client_secret, { status: 200 });
-  } catch (error) {
+  } catch (error: any) {
     return new NextResponse(error, {
       status: 400,
     });
