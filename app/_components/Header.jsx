@@ -7,6 +7,7 @@ import { fetchCartInfi } from '../rtk/slices/cartReducer';
 import Cart from './Cart';
 import Link from 'next/link';
 import DarkMode from './DarkMode';
+import { useRouter } from 'next/navigation';
 function Header() {
   const {user} = useUser();
   const dispatch = useDispatch();
@@ -15,7 +16,7 @@ function Header() {
   const [loading, setLoading] = useState(true);
   const modeState = useSelector((state) => state.mode);
   const email = user?.primaryEmailAddress?.emailAddress
-  useEffect(() => {
+  const checkUser = () => {
     if(user?.primaryEmailAddress?.emailAddress){
       dispatch(fetchCartInfi(email));
       setLoading(!loading);
@@ -23,6 +24,9 @@ function Header() {
     }else if(user === null){
       setLoading(!loading);
     }
+  }
+  useEffect(() => {
+    checkUser();
   },[user])
   return (
     // <!-- ========== HEADER ========== -->
@@ -84,7 +88,7 @@ function Header() {
             </div>
             
             {!loading && (
-              user && <DarkMode />
+              <DarkMode />
             )}
 
           </div>

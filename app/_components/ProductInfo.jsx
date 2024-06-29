@@ -19,6 +19,7 @@ function ProductInfo({ productId }) {
   const dispatch = useDispatch();
   const router = useRouter();
   const user = useUser();
+  const email =user?.user?.primaryEmailAddress?.emailAddress;
   const token =
   "6502ca8873b868b276695bc51552ae4f7ac9a30a18823a1798988250c68e4506128bc98e496d475e00283d1824fd882d3c5b76a4a838c06bb990ab0fac14c2da7a0e4b71cada751094d0d2841244faf2623247232b5365dbe3c201f0e214dcefc2920a83748a1c5844b0c83f5c43f1517c1fce39e10fa1a8e00744a47ce7fa1d";
   const fetchproduct = async () => {
@@ -32,14 +33,14 @@ function ProductInfo({ productId }) {
     );
     const data = await res.json();
     // return console.log(data);
-    setProduct(data.data);
+    await setProduct(data.data);
     setLoading(false);
     await dispatch(fetchProducts());
     dispatch(filterProduct(data.data));
+    // dispatch(fetchCartInfi(email));
   }
-  const email =user?.user?.primaryEmailAddress?.emailAddress;
   const addToCartHandler = async () => {
-    if(user.isSignedIn){
+    if(user?.user?.primaryEmailAddress?.emailAddress !== undefined){
       const data ={
         userName: user?.user?.fullName,
         Email: user?.user?.primaryEmailAddress?.emailAddress,
@@ -47,7 +48,7 @@ function ProductInfo({ productId }) {
         quantity: qauntity
       }
       dispatch(addToCart(data));
-      dispatch(fetchCartInfi(email));
+    //   dispatch(fetchCartInfi(email));
     }else{
       router.push('/sign-in')
     }
@@ -55,24 +56,13 @@ function ProductInfo({ productId }) {
   }
   useEffect(() =>{
     fetchproduct();
-  },[])
+    if(user?.user?.primaryEmailAddress?.emailAddress !== undefined){
+    // dispatch(fetchCartInfi(email));
+    }
+  },[user?.user?.primaryEmailAddress?.emailAddress])
   return (
       <div className='container mx-auto'>
         {loading == false ? 
-    // <div className=" grid grid-cols-1 md:grid-cols-2 gap-5 lg:gap-5 md:gap-10 mt-5">
-    //     <div>
-    //     <Image
-    //       className="object-cover md:mx-auto w-[80%] h-[400px] rounded-lg" src={product?.attributes?.product_Image?.data?.attributes?.url} alt='product-info' width={400} height={400} />
-    //     </div>
-    //     <div>
-    //     <h1 className="text-2xl font-bold">{product?.attributes?.product_Name}</h1>
-    //     <p className="uppercase font-bold text-gray-500">{product?.attributes?.product_Category}</p>
-    //     <p className="text-[15px] mt-5 leading-loose font-bold">{product?.attributes?.product_Description[0]?.children[0].text}</p>
-    //     <p className="text-2xl mt-3 text-secondary font-bold">${product?.attributes?.product_Price}</p>
-    //     <button className=' mt-5 flex gap-1 items-center p-3 rounded-lg font-bold bg-primary hover:bg-secondary' onClick={() => {addToCartHandler(); dispatch(fetchCartInfi(email));}}><FiShoppingCart /> Add to cart</button>
-    //     </div>
-    // </div>
-    
 <section className="py-5">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-2 content-center">
@@ -207,23 +197,7 @@ function ProductInfo({ productId }) {
                                         Gray</p>
                                 </div>
                             </div>
-
                         </div>
-                        {/* <p className="font-medium text-lg text-gray-900 mb-2">Size (KG)</p>
-                        <div className="grid grid-cols-2 min-[400px]:grid-cols-4 gap-3 mb-3 min-[400px]:mb-8">
-                            <button
-                                className="border border-gray-200 whitespace-nowrap text-gray-900 text-sm leading-6 py-2.5 rounded-full px-5 text-center w-full font-semibold shadow-sm shadow-transparent transition-all duration-300 hover:bg-gray-50 hover:shadow-gray-300">Full
-                                Set</button>
-                            <button
-                                className="border border-gray-200 whitespace-nowrap text-gray-900 text-sm leading-6 py-2.5 rounded-full px-5 text-center w-full font-semibold shadow-sm shadow-transparent transition-all duration-300 hover:bg-gray-50 hover:shadow-gray-300">
-                                10 kg</button>
-                            <button
-                                className="border border-gray-200 whitespace-nowrap text-gray-900 text-sm leading-6 py-2.5 rounded-full px-5 text-center w-full font-semibold shadow-sm shadow-transparent transition-all duration-300 hover:bg-gray-50 hover:shadow-gray-300">
-                                25 kg</button>
-                            <button
-                                className="border border-gray-200 whitespace-nowrap text-gray-900 text-sm leading-6 py-2.5 rounded-full px-5 text-center w-full font-semibold shadow-sm shadow-transparent transition-all duration-300 hover:bg-gray-50 hover:shadow-gray-300">
-                                35 kg</button>
-                        </div> */}
                         <div className="flex items-center flex-col min-[400px]:flex-row gap-3 mb-3 min-[400px]:mb-8">
                             <div className=" flex items-center justify-center border border-gray-400 rounded-full">
                                 <button onClick={() => {qauntity > 1 && setQauntity(qauntity - 1)}}
@@ -258,7 +232,7 @@ function ProductInfo({ productId }) {
                                 </svg>
                                 Add to cart</button>
                         </div>
-                        <button onClick={()=> setCheckout(true)}
+                        <button onClick={()=> {addToCartHandler(); setCheckout(true);}}
                             className="text-center w-full px-5 py-4 rounded-[100px] bg-primary flex items-center justify-center font-semibold text-lg text-black shadow-sm shadow-transparent transition-all duration-500 hover:bg-secondary hover:shadow-gray-500">
                             Buy Now
                         </button>

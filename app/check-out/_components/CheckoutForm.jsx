@@ -53,14 +53,8 @@ function CheckoutForm({checkOut, getTotal}) {
 			return;
 		}
 
-    //   const res = await fetch('api/create-intent', {
-    //     method: 'POST',
-    //     body: JSON.stringify({ amount: getTotal }),
-    //   })
 
-    //   const clientSecret = await res.json();
-
-    const res = await fetch('api/create-intent', {
+    const res = await fetch('../api/create-intent', {
       method: 'POST',
       body: JSON.stringify({ amount: getTotal }), 
     });

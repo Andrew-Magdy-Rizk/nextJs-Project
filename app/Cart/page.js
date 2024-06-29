@@ -3,14 +3,17 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   decrementQuantity,
+  fetchCartInfi,
   incrementQuantity,
   removeFromCart,
 } from "../rtk/slices/cartReducer";
 import SkeletonCartInfo from "../_components/SkeletonCartInfo";
 import CheckOut from "../check-out/page";
+import { useUser } from "@clerk/nextjs";
 function Cart() {
   const cartState = useSelector((state) => state.cart);
   const dispatch = useDispatch();
+  const user = useUser();
   const modeState = useSelector((state) => state.mode);
   const [loading, setLoading] = useState(true);
   const [checkout, setCheckout] = useState(false);
@@ -19,9 +22,11 @@ function Cart() {
       product?.attributes?.products?.data[0]?.attributes?.product_Price *
       product?.attributes?.quantity);
   }, 0);
+  const email = user?.user?.emailAddresses[0]?.emailAddress;
   useEffect(() => {
+    dispatch(fetchCartInfi(email));
     cartState && setLoading(false);
-  }, [cartState]);
+  }, []);
   return (
     <>
       <section
