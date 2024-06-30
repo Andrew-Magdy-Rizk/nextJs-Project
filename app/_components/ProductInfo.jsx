@@ -1,11 +1,10 @@
 import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
-import { FiShoppingCart } from "react-icons/fi";
 import ProductList from './ProductList';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchProducts, filterProduct } from '../rtk/slices/productsReducer';
 import SkeletonProductInfo from './SkeletonProductInfo';
-import { addToCart, fetchCartInfi } from '../rtk/slices/cartReducer';
+import { addToCart } from '../rtk/slices/cartReducer';
 import { useUser } from '@clerk/nextjs';
 import { useRouter } from 'next/navigation';
 import CheckOut from '../check-out/page';
@@ -19,7 +18,6 @@ function ProductInfo({ productId }) {
   const dispatch = useDispatch();
   const router = useRouter();
   const user = useUser();
-  const email =user?.user?.primaryEmailAddress?.emailAddress;
   const token =
   "6502ca8873b868b276695bc51552ae4f7ac9a30a18823a1798988250c68e4506128bc98e496d475e00283d1824fd882d3c5b76a4a838c06bb990ab0fac14c2da7a0e4b71cada751094d0d2841244faf2623247232b5365dbe3c201f0e214dcefc2920a83748a1c5844b0c83f5c43f1517c1fce39e10fa1a8e00744a47ce7fa1d";
   const fetchproduct = async () => {
@@ -256,7 +254,7 @@ function ProductInfo({ productId }) {
 
  {/* <script src='../actionProductInfo.js'/> */}
  {checkout && (
-          <CheckOut hidden={setCheckout} Total={product?.attributes?.product_Price * qauntity} />
+          <CheckOut hidden={setCheckout} Total={(product?.attributes?.product_Price * qauntity.toFixed(2)).toFixed(2)} />
         )}
       </div>
   )

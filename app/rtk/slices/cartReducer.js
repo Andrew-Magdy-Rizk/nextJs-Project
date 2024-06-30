@@ -36,7 +36,7 @@ const plusQuantity = (state, oneCart) => {
     .then((res) => res.json())
     .then((data) => {
       Swal.fire({
-        position: "top-end",
+        position: "center",
         icon: "success",
         title: `Add 1 Item In Cart Successfully`,
         showConfirmButton: false,
@@ -71,7 +71,7 @@ const cartReducer = createSlice({
           .then((data) => {
             console.log(data.data);
             Swal.fire({
-              position: "top-end",
+              position: "center",
               icon: "success",
               title: `Product Add In Cart Successfully`,
               showConfirmButton: false,

@@ -87,9 +87,9 @@ function Header() {
               <a className="inline-block text-black hover:text-gray-600 dark:text-white dark:hover:text-secondary" href="#">About</a>
             </div>
             
-            {!loading && (
+            
               <DarkMode />
-            )}
+            
 
           </div>
         </div>
