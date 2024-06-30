@@ -13,7 +13,7 @@ function ProductList() {
         <div className="absolute top-0 right-0 bg-red-500 text-white px-2 py-1 m-2 rounded-md text-sm font-medium">SALE
         </div>
     </div>
-    <div className="p-4 dark:bg-[#171717]">
+    <div className="p-4 dark:bg-[#171717] h-full">
         <h3 className="text-lg font-medium mb-2 dark:text-white line-clamp-2">{product?.attributes?.product_Name}</h3>
         <p className="text-gray-400 uppercase font-bold text-sm mb-4 dark:text-neutral-300">{product?.attributes?.product_Category}</p>
         <p className="text-gray-500 text-sm mb-4 line-clamp-2 dark:text-neutral-300">{product?.attributes?.product_Description[0].children[0].text}</p>
